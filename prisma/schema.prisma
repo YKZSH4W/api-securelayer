@@ -1,0 +1,183 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../node_modules/.prisma/client"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+model Users {
+  id Int @id @default(autoincrement())
+  email String @unique
+  username String @unique
+  password String
+  name String
+  lastName String
+  birthDate DateTime
+  totalXp Int
+  lastAccessed DateTime
+  streak Int
+  userAchievements Usersachievements[]
+  userKnowledges UsersKnowledges[]
+  enrolls Enrolls[]
+  attempts Attempts[]
+  lessonsProgress lesssonsProgress[]
+  activitiesProgress activitiesProgress[]
+}
+
+model Usersachievements {
+  id Int @id @default(autoincrement())
+  userId Int
+  achievementId Int
+  dateAchieved DateTime
+  user Users @relation(fields: [userId], references: [id])
+  achievement Achievements @relation(fields: [achievementId], references: [id])
+}
+
+model Achievements {
+  id Int @id @default(autoincrement())
+  name String
+  description String
+  icon String
+  requiredXp Int
+  user Usersachievements[]
+}
+
+model Routes {
+  id Int @id @default(autoincrement())
+  level String
+  name String
+  difficulty String
+  description String
+  isCompleted Boolean
+  lessons Lessons[]
+  enrolls Enrolls[]
+  routesAdvices routesAdvices[]
+}
+
+model Lessons {
+  id Int @id @default(autoincrement())
+  routeId Int
+  name String
+  description String
+  icon String
+  route Routes @relation(fields: [routeId], references: [id])
+  activities Activities[]
+  lessonsProgress lesssonsProgress[]
+  lessonsAdvices lessonsAdvices[]
+}
+
+model Activities {
+  id Int @id @default(autoincrement())
+  lessonId Int
+  activityTypeId Int
+  name String
+  description String
+  icon String
+  lesson Lessons @relation(fields: [lessonId], references: [id])
+  questions Questions[]
+  attempts Attempts[]
+  activitiesProgress activitiesProgress[]
+}
+
+model Questions {
+  id Int @id @default(autoincrement())
+  activityId Int
+  questionText String
+  correctAnswer String
+  explanation String
+  type String
+  order Int
+  activity Activities @relation(fields: [activityId], references: [id])
+  options Options[]
+}
+
+model Options {
+  id Int @id @default(autoincrement())
+  questionId Int
+  optionText String
+  isCorrect Boolean
+  question Questions @relation(fields: [questionId], references: [id])
+}
+
+model KnowledgeLevels {
+  id Int @id @default(autoincrement())
+  level String
+  description String
+  usersKnowledges UsersKnowledges[]
+}
+
+model UsersKnowledges {
+  id Int @id @default(autoincrement())
+  userId Int @unique
+  knowledgeLevelId Int
+  dateAchieved DateTime
+  user Users @relation(fields: [userId], references: [id])
+  knowledgeLevels KnowledgeLevels @relation(fields: [knowledgeLevelId], references: [id])
+}
+
+model Enrolls {
+  id Int @id @default(autoincrement())
+  userId Int
+  routeId Int
+  enrollmentDate DateTime
+  finishDate DateTime?
+  isCompleted Boolean
+  user Users @relation(fields: [userId], references: [id])
+  route Routes @relation(fields: [routeId], references: [id])
+}
+
+model Attempts {
+  id Int @id @default(autoincrement())
+  userId Int
+  activityId Int @unique
+  attemptDate DateTime
+  xp Int
+  isCorrect Boolean
+  user Users @relation(fields: [userId], references: [id])
+  activity Activities @relation(fields: [activityId], references: [id])
+}
+
+model lesssonsProgress {
+  id Int @id @default(autoincrement())
+  userId Int
+  lessonId Int
+  progress Int
+  isCompleted Boolean
+  user Users @relation(fields: [userId], references: [id])
+  lesson Lessons @relation(fields: [lessonId], references: [id])
+}
+
+model activitiesProgress {
+  id Int @id @default(autoincrement())
+  activityId Int
+  userId Int
+  progress Int
+  isCompleted Boolean
+  user Users @relation(fields: [userId], references: [id])
+  activity Activities @relation(fields: [activityId], references: [id])
+}
+
+model routesAdvices {
+  id Int @id @default(autoincrement())
+  routeId Int
+  type String
+  adviceTitle String
+  adviceText String
+  route Routes @relation(fields: [routeId], references: [id])
+}
+
+model lessonsAdvices {
+  id Int @id @default(autoincrement())
+  lessonId Int
+  type String
+  adviceTitle String
+  adviceText String
+  lesson Lessons @relation(fields: [lessonId], references: [id])
+}
