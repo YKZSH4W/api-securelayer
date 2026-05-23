@@ -9,6 +9,12 @@ app.use(express.json())
 
 // Rutas
 const userRoutes = require('./src/routes/user.routes')
+const routeRoutes = require('./src/routes/routes.routes')
+const lessonRoutes = require('./src/routes/lessons.routes')
+const activityRoutes = require('./src/routes/activities.routes')
+const questionRoutes = require('./src/routes/questions.routes')
+const optionRoutes = require('./src/routes/options.routes')
+const enrollRoutes = require('./src/routes/enrolls.routes')
 
 // Middleware errores
 const errorMiddleware = require('./src/middlewares/error.middleware')
@@ -16,12 +22,18 @@ const errorMiddleware = require('./src/middlewares/error.middleware')
 // Ruta base
 app.get('/', (req, res) => {
   res.json({
-    message: 'API funcionando 🚀'
+    message: 'API funcionando!'
   })
 })
 
 // Endpoints
 app.use('/users', userRoutes)
+app.use('/activities', activityRoutes)
+app.use('/routes', routeRoutes)
+app.use('/lessons', lessonRoutes)
+app.use('/questions', questionRoutes)
+app.use('/options', optionRoutes)
+app.use('/enrolls', enrollRoutes)
 
 // Middleware global
 app.use(errorMiddleware)

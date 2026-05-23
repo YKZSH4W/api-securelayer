@@ -29,7 +29,17 @@ const createUser = async (req, res, next) => {
     }
 }
 
+const getUserByEmail = async (req, res, next) => {
+    try {
+        const user = await userService.getUserByEmail(req.params.email)
+        res.json(user)
+    } catch (error) {
+        next(error)
+    }
+}
+
 module.exports = {
     getUsers,
-    createUser
+    createUser,
+    getUserByEmail
 }

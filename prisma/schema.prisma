@@ -3,14 +3,18 @@
 
 // Get a free hosted Postgres database in seconds: `npx create-db`
 
+// Define el modelo de datos para la base de datos utilizando Prisma
 generator client {
   provider = "prisma-client-js"
   output   = "../node_modules/.prisma/client"
 }
 
+// Definicion del tipo de base de datos a utilizar
 datasource db {
   provider = "mysql"
 }
+
+// Diseño de la base de datos
 
 model Users {
   id Int @id @default(autoincrement())
@@ -55,7 +59,7 @@ model Routes {
   name String
   difficulty String
   description String
-  isCompleted Boolean
+  isCompleted Boolean @default(false)
   lessons Lessons[]
   enrolls Enrolls[]
   routesAdvices routesAdvices[]
@@ -67,6 +71,7 @@ model Lessons {
   name String
   description String
   icon String
+  isCompleted Boolean @default(false)
   route Routes @relation(fields: [routeId], references: [id])
   activities Activities[]
   lessonsProgress lesssonsProgress[]
@@ -76,14 +81,16 @@ model Lessons {
 model Activities {
   id Int @id @default(autoincrement())
   lessonId Int
-  activityTypeId Int
   name String
   description String
   icon String
+  isCompleted Boolean @default(false)
+  type String
   lesson Lessons @relation(fields: [lessonId], references: [id])
   questions Questions[]
   attempts Attempts[]
   activitiesProgress activitiesProgress[]
+  phishingSimulations PhishingSimulations[]
 }
 
 model Questions {
@@ -96,6 +103,7 @@ model Questions {
   order Int
   activity Activities @relation(fields: [activityId], references: [id])
   options Options[]
+  userAnswers UsersAnswers[]
 }
 
 model Options {
@@ -131,6 +139,8 @@ model Enrolls {
   isCompleted Boolean
   user Users @relation(fields: [userId], references: [id])
   route Routes @relation(fields: [routeId], references: [id])
+
+  @@unique([userId, routeId])
 }
 
 model Attempts {
@@ -142,6 +152,7 @@ model Attempts {
   isCorrect Boolean
   user Users @relation(fields: [userId], references: [id])
   activity Activities @relation(fields: [activityId], references: [id])
+  userAnswers UsersAnswers[]
 }
 
 model lesssonsProgress {
@@ -180,4 +191,24 @@ model lessonsAdvices {
   adviceTitle String
   adviceText String
   lesson Lessons @relation(fields: [lessonId], references: [id])
+}
+
+model PhishingSimulations {
+  id Int @id @default(autoincrement())
+  activityId Int
+  typeMessage String
+  sender String
+  content String
+  isScam Boolean
+  activity Activities @relation(fields: [activityId], references: [id])
+}
+
+model UsersAnswers {
+  id Int @id @default(autoincrement())
+  attemptId Int
+  questionId Int
+  answer String
+  isCorrect Boolean
+  attempt Attempts @relation(fields: [attemptId], references: [id])
+  question Questions @relation(fields: [questionId], references: [id])
 }
