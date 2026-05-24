@@ -8,13 +8,19 @@ const app = express()
 app.use(express.json())
 
 // Rutas
-const userRoutes = require('./src/routes/user.routes')
+const userRoutes = require('./src/routes/users.routes')
 const routeRoutes = require('./src/routes/routes.routes')
 const lessonRoutes = require('./src/routes/lessons.routes')
 const activityRoutes = require('./src/routes/activities.routes')
 const questionRoutes = require('./src/routes/questions.routes')
 const optionRoutes = require('./src/routes/options.routes')
 const enrollRoutes = require('./src/routes/enrolls.routes')
+const achievementRoutes = require('./src/routes/achievements.routes')
+const userAchievementRoutes = require('./src/routes/users-achievements.routes')
+const routeAdviceRoutes = require('./src/routes/routes-advices.routes')
+const lessonAdviceRoutes = require('./src/routes/lessons-advices.services')
+const lessonsProgressRoutes = require('./src/routes/lessons-progress.routes')
+const phishingSimulationsRoutes = require('./src/routes/phishing-simulations.routes')
 
 // Middleware errores
 const errorMiddleware = require('./src/middlewares/error.middleware')
@@ -34,6 +40,12 @@ app.use('/lessons', lessonRoutes)
 app.use('/questions', questionRoutes)
 app.use('/options', optionRoutes)
 app.use('/enrolls', enrollRoutes)
+app.use('/achievements', achievementRoutes)
+app.use('/users-achievements', userAchievementRoutes)
+app.use('/routes-advices', routeAdviceRoutes)
+app.use('/lessons-advices', lessonAdviceRoutes)
+app.use('/lessons-progress', lessonsProgressRoutes)
+app.use('/phishing-simulations', phishingSimulationsRoutes)
 
 // Middleware global
 app.use(errorMiddleware)

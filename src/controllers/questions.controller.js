@@ -1,4 +1,4 @@
-const routeService = require('../services/questions.service')
+const questionService = require('../services/questions.service')
 
 const getQuestions = async (req, res, next) => {
     try {
@@ -26,8 +26,18 @@ const createQuestion = async (req, res, next) => {
     }
 }
 
+const getQuestionsByActivityId = async (req, res, next) => {
+    try {
+        const { activityId } = req.params
+        const questions = await questionService.getQuestionsByActivityId(activityId)
+        res.json(questions)
+    } catch (error) {
+        next(error)
+    }
+}
 
 module.exports = {
     getQuestions,
-    createQuestion
+    createQuestion,
+    getQuestionsByActivityId
 }

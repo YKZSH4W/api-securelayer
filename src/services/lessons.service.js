@@ -7,12 +7,22 @@ const getLessons = async () => {
 const createLesson = async (data) => {
     return await prisma.lessons.create({
         data: {
-            ...data
+            ...data,
+            isCompleted: false
+        }
+    })
+}
+
+const getLessonsByRouteId = async (routeId) => {
+    return await prisma.lessons.findMany({
+        where: {
+            routeId: parseInt(routeId)
         }
     })
 }
 
 module.exports = {
     getLessons,
-    createLesson
+    createLesson,
+    getLessonsByRouteId
 }

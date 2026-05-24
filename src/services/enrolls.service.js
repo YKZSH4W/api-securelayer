@@ -13,7 +13,13 @@ const createEnroll = async (data) => {
         error.status = 409
         throw error
     }
-    return await prisma.enrolls.create({ data })
+    return await prisma.enrolls.create({
+        data: {
+            ...data,
+            enrollmentDate: new Date(),
+            isCompleted: false
+        }
+    })
 }
 
 module.exports = {

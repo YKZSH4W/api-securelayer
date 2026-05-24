@@ -27,11 +27,11 @@ model Users {
   totalXp Int
   lastAccessed DateTime
   streak Int
+  knowledgeLevel String
   userAchievements Usersachievements[]
-  userKnowledges UsersKnowledges[]
   enrolls Enrolls[]
   attempts Attempts[]
-  lessonsProgress lesssonsProgress[]
+  lessonsProgress lessonsProgress[]
   activitiesProgress activitiesProgress[]
 }
 
@@ -74,7 +74,7 @@ model Lessons {
   isCompleted Boolean @default(false)
   route Routes @relation(fields: [routeId], references: [id])
   activities Activities[]
-  lessonsProgress lesssonsProgress[]
+  lessonsProgress lessonsProgress[]
   lessonsAdvices lessonsAdvices[]
 }
 
@@ -114,22 +114,6 @@ model Options {
   question Questions @relation(fields: [questionId], references: [id])
 }
 
-model KnowledgeLevels {
-  id Int @id @default(autoincrement())
-  level String
-  description String
-  usersKnowledges UsersKnowledges[]
-}
-
-model UsersKnowledges {
-  id Int @id @default(autoincrement())
-  userId Int @unique
-  knowledgeLevelId Int
-  dateAchieved DateTime
-  user Users @relation(fields: [userId], references: [id])
-  knowledgeLevels KnowledgeLevels @relation(fields: [knowledgeLevelId], references: [id])
-}
-
 model Enrolls {
   id Int @id @default(autoincrement())
   userId Int
@@ -155,7 +139,7 @@ model Attempts {
   userAnswers UsersAnswers[]
 }
 
-model lesssonsProgress {
+model lessonsProgress {
   id Int @id @default(autoincrement())
   userId Int
   lessonId Int

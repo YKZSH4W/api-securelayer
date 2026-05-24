@@ -12,7 +12,16 @@ const createActivity = async (data) => {
     })
 }
 
+const getActivitiesByLessonId = async (lessonId) => {
+    return await prisma.activities.findMany({
+        where: {
+            lessonId: parseInt(lessonId)
+        }
+    })
+}
+
 module.exports = {
     getActivities,
-    createActivity
+    createActivity,
+    getActivitiesByLessonId
 }

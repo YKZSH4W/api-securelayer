@@ -1,4 +1,4 @@
-const userService = require('../services/user.service')
+const userService = require('../services/users.service')
 
 const getUsers = async (req, res, next) => {
     try {
@@ -11,7 +11,7 @@ const getUsers = async (req, res, next) => {
 
 const createUser = async (req, res, next) => {
     try {
-        const { name, email, lastName, password, birthDate, username, totalXp, streak } = req.body
+        const { name, email, lastName, password, birthDate, username, totalXp, streak, knowledgeLevel } = req.body
         const user = await userService.createUser({
             name,
             email,
@@ -20,7 +20,8 @@ const createUser = async (req, res, next) => {
             birthDate,
             username,
             totalXp,
-            streak
+            streak,
+            knowledgeLevel
         })
         
         res.status(201).json(user)
@@ -38,8 +39,18 @@ const getUserByEmail = async (req, res, next) => {
     }
 }
 
+const getUserByUsername = async (req, res, next) => {
+    try {
+        const user = await userService.getUserByUsername(req.params.username)
+        res.json(user)
+    } catch (error) {
+        next(error)
+    }
+}
+
 module.exports = {
     getUsers,
     createUser,
-    getUserByEmail
+    getUserByEmail,
+    getUserByUsername
 }

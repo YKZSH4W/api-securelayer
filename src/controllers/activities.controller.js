@@ -25,9 +25,20 @@ const createActivity = async (req, res, next) => {
     }
 }
 
+const getActivitiesByLessonId = async (req, res, next) => {
+    try {
+        const { lessonId } = req.params
+        const activities = await activityService.getActivitiesByLessonId(lessonId)
+        res.json(activities)
+    } catch (error) {
+        next(error)
+    }
+}
+
 
 
 module.exports = {
     getActivities,
-    createActivity
+    createActivity,
+    getActivitiesByLessonId
 }
