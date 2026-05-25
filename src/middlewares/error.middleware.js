@@ -1,9 +1,6 @@
 const { Prisma } = require('@prisma/client')
 
 const errorMiddleware = (err, req, res, next) => {
-
-    console.error(err)
-
     if (err instanceof Prisma.PrismaClientKnownRequestError) {
         if (err.code === 'P2003') {
             return res.status(400).json({

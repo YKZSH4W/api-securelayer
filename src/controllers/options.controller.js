@@ -1,4 +1,4 @@
-const optionService = require('../services/lessons.service')
+const optionService = require('../services/options.service')
 
 const getOptions = async (req, res, next) => {
     try {

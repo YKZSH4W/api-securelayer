@@ -1,30 +1,50 @@
 const express = require('express')
 const router = express.Router()
-const { createLessonProgress, getLessonsProgress, getLessonsProgressByLessonId, 
+const { createLessonProgress, getLessonsProgress, getLessonsProgressByLessonId,
         getLessonsProgressByUserId, getProgressByUserAndLesson } = require('../services/lessons-progress.service')
 
-router.get('/', async (req, res) => {
-    res.json(await getLessonsProgress())
+router.get('/', async (req, res, next) => {
+    try {
+        res.json(await getLessonsProgress())
+    } catch (error) {
+        next(error)
+    }
 })
 
-router.post('/', async (req, res) => {
-    const lesson = await createLessonProgress(req.body)
-    res.status(201).json(lesson)
+router.post('/', async (req, res, next) => {
+    try {
+        const lesson = await createLessonProgress(req.body)
+        res.status(201).json(lesson)
+    } catch (error) {
+        next(error)
+    }
 })
 
-router.get('/lesson/:lessonId', async (req, res) => {
-    const { lessonId } = req.params
-    res.json(await getLessonsProgressByLessonId(lessonId))
+router.get('/lesson/:lessonId', async (req, res, next) => {
+    try {
+        const { lessonId } = req.params
+        res.json(await getLessonsProgressByLessonId(lessonId))
+    } catch (error) {
+        next(error)
+    }
 })
 
-router.get('/user/:userId', async (req, res) => {
-    const { userId } = req.params
-    res.json(await getLessonsProgressByUserId(userId))
+router.get('/user/:userId', async (req, res, next) => {
+    try {
+        const { userId } = req.params
+        res.json(await getLessonsProgressByUserId(userId))
+    } catch (error) {
+        next(error)
+    }
 })
 
-router.get('/user/:userId/lesson/:lessonId', async (req, res) => {
-    const { userId, lessonId } = req.params
-    res.json(await getProgressByUserAndLesson(userId, lessonId))
+router.get('/user/:userId/lesson/:lessonId', async (req, res, next) => {
+    try {
+        const { userId, lessonId } = req.params
+        res.json(await getProgressByUserAndLesson(userId, lessonId))
+    } catch (error) {
+        next(error)
+    }
 })
 
 module.exports = router

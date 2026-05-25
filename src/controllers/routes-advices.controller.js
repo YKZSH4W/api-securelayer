@@ -27,7 +27,7 @@ const createRouteAdvice = async (req, res, next) => {
 const getRouteAdvicesById = async (req, res, next) => {
     try {
         const { id } = req.params
-        const route = await routeService.getRouteAdvicesById(id)
+        const route = await routeAdviceService.getRouteAdvicesById(id)
         res.json(route)
     } catch (error) {
         next(error)

@@ -12,10 +12,10 @@ const createPhishingSimulation = async (data) => {
     })
 }
 
-const getPhishingSimulationById = async (id) => {
-    return await prisma.phishingSimulations.findUnique({
+const getPhishingSimulationsByActivityId = async (id) => {
+    return await prisma.phishingSimulations.findMany({
         where: {
-            id: parseInt(id)
+            activityId: parseInt(id)
         }
     })
 }
@@ -24,5 +24,5 @@ const getPhishingSimulationById = async (id) => {
 module.exports = {
     getPhishingSimulations,
     createPhishingSimulation,
-    getPhishingSimulationById
+    getPhishingSimulationsByActivityId
 }

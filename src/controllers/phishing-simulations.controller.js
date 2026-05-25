@@ -25,10 +25,10 @@ const createPhishingSimulation = async (req, res, next) => {
     }
 }
 
-const getPhishingSimulationById = async (req, res, next) => {
+const getPhishingSimulationsById = async (req, res, next) => {
     try {
         const { id } = req.params
-        const phishingSimulation = await phishingSimulationService.getPhishingSimulationById(id)
+        const phishingSimulation = await phishingSimulationService.getPhishingSimulationsByActivityId(id)
         res.json(phishingSimulation)
     } catch (error) {
         next(error)
@@ -38,5 +38,5 @@ const getPhishingSimulationById = async (req, res, next) => {
 module.exports = {
     getPhishingSimulations,
     createPhishingSimulation,
-    getPhishingSimulationById
+    getPhishingSimulationsById
 }

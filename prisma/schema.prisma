@@ -86,6 +86,7 @@ model Activities {
   icon String
   isCompleted Boolean @default(false)
   type String
+  xp Int
   lesson Lessons @relation(fields: [lessonId], references: [id])
   questions Questions[]
   attempts Attempts[]
@@ -130,10 +131,10 @@ model Enrolls {
 model Attempts {
   id Int @id @default(autoincrement())
   userId Int
-  activityId Int @unique
+  activityId Int
   attemptDate DateTime
-  xp Int
   isCorrect Boolean
+  score Int
   user Users @relation(fields: [userId], references: [id])
   activity Activities @relation(fields: [activityId], references: [id])
   userAnswers UsersAnswers[]

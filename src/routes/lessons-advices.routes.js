@@ -1,10 +1,10 @@
 const express = require('express')
 const router = express.Router()
-const { createLesson, getLessons, getLessonsByRouteId } = require('../services/lessons.service')
+const { createLessonAdvice, getLessonsAdvices, getLessonsAdvicesById } = require('../services/lessons-advices.service')
 
 router.get('/', async (req, res, next) => {
     try {
-        res.json(await getLessons())
+        res.json(await getLessonsAdvices())
     } catch (error) {
         next(error)
     }
@@ -12,18 +12,17 @@ router.get('/', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
     try {
-        const lesson = await createLesson(req.body)
+        const lesson = await createLessonAdvice(req.body)
         res.status(201).json(lesson)
     } catch (error) {
         next(error)
     }
 })
 
-router.get('/route/:routeId', async (req, res, next) => {
+router.get('/lesson/:lessonId', async (req, res, next) => {
     try {
-        const { routeId } = req.params
-        const lessons = await getLessonsByRouteId(routeId)
-        res.json(lessons)
+        const { lessonId } = req.params
+        res.json(await getLessonsAdvicesById(lessonId))
     } catch (error) {
         next(error)
     }

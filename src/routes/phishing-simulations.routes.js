@@ -1,19 +1,31 @@
 const express = require('express')
 const router = express.Router()
-const { createPhishingSimulation, getPhishingSimulationById, getPhishingSimulations } = require('../services/phishing-simulations.service')
+const { createPhishingSimulation, getPhishingSimulationsByActivityId, getPhishingSimulations } = require('../services/phishing-simulations.service')
 
-router.get('/', async (req, res) => {
-    res.json(await getPhishingSimulations())
+router.get('/', async (req, res, next) => {
+    try {
+        res.json(await getPhishingSimulations())
+    } catch (error) {
+        next(error)
+    }
 })
 
-router.post('/', async (req, res) => {
-    const lesson = await createPhishingSimulation(req.body)
-    res.status(201).json(lesson)
+router.post('/', async (req, res, next) => {
+    try {
+        const lesson = await createPhishingSimulation(req.body)
+        res.status(201).json(lesson)
+    } catch (error) {
+        next(error)
+    }
 })
 
-router.get('/:phishingSimulationId', async (req, res) => {
-    const { phishingSimulationId } = req.params
-    res.json(await getPhishingSimulationById(phishingSimulationId))
+router.get('/activity/:activityId', async (req, res, next) => {
+    try {
+        const { activityId } = req.params
+        res.json(await getPhishingSimulationsByActivityId(activityId))
+    } catch (error) {
+        next(error)
+    }
 })
 
 module.exports = router

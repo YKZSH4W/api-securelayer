@@ -1,4 +1,4 @@
-const userAchivementService = require('../services/users-achievements.service')
+const userAchievementService = require('../services/users-achievements.service')
 
 const getUsersAchievements = async (req, res, next) => {
     try {
