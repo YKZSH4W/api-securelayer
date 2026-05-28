@@ -46,23 +46,28 @@ pnpm dev
 | Metodo | Ruta | Descripcion |
 |--------|------|-------------|
 | GET | `/users` | Obtener todos los usuarios |
-| POST | `/users` | Crear un usuario |
 | GET | `/users/email/:email` | Obtener usuario por email |
 | GET | `/users/username/:username` | Obtener usuario por username |
+| POST | `/users/auth/register` | Registrar un nuevo usuario |
+| POST | `/users/auth/login` | Iniciar sesion |
 
-**Body POST `/users`:**
+**Body POST `/users/auth/register`:**
 ```json
 {
+  "name": "string",
+  "lastName": "string",
   "email": "string",
   "username": "string",
   "password": "string",
-  "name": "string",
-  "lastName": "string",
-  "birthDate": "2024-01-01T00:00:00.000Z",
-  "totalXp": 0,
-  "lastAccessed": "2024-01-01T00:00:00.000Z",
-  "streak": 0,
-  "knowledgeLevel": "string"
+  "birthDate": "2024-01-01T00:00:00.000Z"
+}
+```
+
+**Body POST `/users/auth/login`:**
+```json
+{
+  "email": "string",
+  "password": "string"
 }
 ```
 
@@ -180,19 +185,15 @@ pnpm dev
 |--------|------|-------------|
 | GET | `/enrolls` | Obtener todas las inscripciones |
 | POST | `/enrolls` | Crear una inscripcion |
+| GET | `/enrolls/user/:userId` | Obtener inscripciones de un usuario |
 
 **Body POST `/enrolls`:**
 ```json
 {
   "userId": 1,
-  "routeId": 1,
-  "enrollmentDate": "2024-01-01T00:00:00.000Z",
-  "finishDate": "2024-06-01T00:00:00.000Z",
-  "isCompleted": false
+  "routeId": 1
 }
 ```
-
-> `finishDate` es opcional.
 
 ---
 
