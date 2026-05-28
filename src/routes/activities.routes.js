@@ -1,32 +1,11 @@
 const express = require('express')
 const router = express.Router()
-const { createActivity, getActivities, getActivitiesByLessonId } = require('../services/activities.service')
+const { getActivities, createActivity, getActivitiesByLessonId } = require('../controllers/activities.controller')
 
-router.get('/', async (req, res, next) => {
-    try {
-        res.json(await getActivities())
-    } catch (error) {
-        next(error)
-    }
-})
+router.get('/', getActivities)
 
-router.post('/', async (req, res, next) => {
-    try {
-        const activity = await createActivity(req.body)
-        res.status(201).json(activity)
-    } catch (error) {
-        next(error)
-    }
-})
+router.post('/', createActivity)
 
-router.get('/lesson/:lessonId', async (req, res, next) => {
-    try {
-        const { lessonId } = req.params
-        const activities = await getActivitiesByLessonId(lessonId)
-        res.json(activities)
-    } catch (error) {
-        next(error)
-    }
-})
+router.get('/lesson/:lessonId', getActivitiesByLessonId)
 
 module.exports = router

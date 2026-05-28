@@ -102,6 +102,7 @@ model Questions {
   explanation String
   type String
   order Int
+  support String?
   activity Activities @relation(fields: [activityId], references: [id])
   options Options[]
   userAnswers UsersAnswers[]

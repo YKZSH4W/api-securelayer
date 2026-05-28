@@ -148,7 +148,8 @@ pnpm dev
   "correctAnswer": "string",
   "explanation": "string",
   "type": "string",
-  "order": 1
+  "order": 1,
+  "support": "string"
 }
 ```
 

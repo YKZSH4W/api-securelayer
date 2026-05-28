@@ -1,32 +1,11 @@
 const express = require('express')
 const router = express.Router()
-const { createLesson, getLessons, getLessonsByRouteId } = require('../services/lessons.service')
+const { getLessons, createLesson, getLessonsByRouteId } = require('../controllers/lessons.controller')
 
-router.get('/', async (req, res, next) => {
-    try {
-        res.json(await getLessons())
-    } catch (error) {
-        next(error)
-    }
-})
+router.get('/', getLessons)
 
-router.post('/', async (req, res, next) => {
-    try {
-        const lesson = await createLesson(req.body)
-        res.status(201).json(lesson)
-    } catch (error) {
-        next(error)
-    }
-})
+router.post('/', createLesson)
 
-router.get('/route/:routeId', async (req, res, next) => {
-    try {
-        const { routeId } = req.params
-        const lessons = await getLessonsByRouteId(routeId)
-        res.json(lessons)
-    } catch (error) {
-        next(error)
-    }
-})
+router.get('/route/:routeId', getLessonsByRouteId)
 
 module.exports = router

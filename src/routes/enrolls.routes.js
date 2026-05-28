@@ -1,22 +1,11 @@
 const express = require('express')
 const router = express.Router()
-const { createEnroll, getEnrolls } = require('../services/enrolls.service')
+const { getEnrolls, createEnroll, getEnrollsByUserId } = require('../controllers/enrolls.controller')
 
-router.get('/', async (req, res, next) => {
-    try {
-        res.json(await getEnrolls())
-    } catch (error) {
-        next(error)
-    }
-})
+router.get('/', getEnrolls)
 
-router.post('/', async (req, res, next) => {
-    try {
-        const lesson = await createEnroll(req.body)
-        res.status(201).json(lesson)
-    } catch (error) {
-        next(error)
-    }
-})
+router.post('/', createEnroll)
+
+router.get('/user/:userId', getEnrollsByUserId) 
 
 module.exports = router

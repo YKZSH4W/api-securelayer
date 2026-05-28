@@ -22,7 +22,18 @@ const createEnroll = async (req, res, next) => {
     }
 }
 
+const getEnrollsByUserId = async (req, res, next) => {
+    try {
+        const { userId } = req.params
+        const enrolls = await enrollService.getEnrollsByUserId(userId)
+        res.json(enrolls)
+    } catch (error) {
+        next(error)
+    }
+}
+
 module.exports = {
     getEnrolls,
-    createEnroll
+    createEnroll,
+    getEnrollsByUserId
 }

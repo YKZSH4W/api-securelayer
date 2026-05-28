@@ -24,7 +24,21 @@ const createEnroll = async (data) => {
     })
 }
 
+const getEnrollsByUserId = async (userId) => {
+    const enrolls = await prisma.enrolls.findMany({
+        where: {
+            userId: parseInt(userId)
+        },
+        include: {
+            route: true
+        }
+    })
+    
+    return enrolls.map(enroll => enroll.route)
+}
+
 module.exports = {
     getEnrolls,
-    createEnroll
+    createEnroll,
+    getEnrollsByUserId
 }
