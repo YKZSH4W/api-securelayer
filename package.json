@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "postinstall": "prisma generate",
-    "start": "prisma migrate deploy && node ./bin/www",
-    "dev": "nodemon ./bin/www"
+    "start": "node ./bin/www",
+    "migrate:deploy": "prisma migrate deploy"
   },
   "dependencies": {
     "@prisma/adapter-mariadb": "^7.8.0",
