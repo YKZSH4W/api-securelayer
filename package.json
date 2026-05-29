@@ -3,9 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "postinstall": "prisma generate",
-    "start": "node ./bin/www",
-    "migrate:deploy": "prisma migrate deploy"
+    "start": "prisma generate && prisma migrate deploy && node ./bin/www"
   },
   "dependencies": {
     "@prisma/adapter-mariadb": "^7.8.0",
