@@ -2,6 +2,7 @@ const { Prisma } = require('@prisma/client')
 
 const errorMiddleware = (err, req, res, next) => {
     if (err instanceof Prisma.PrismaClientKnownRequestError) {
+        console.error('Error de Prisma:', err)
         if (err.code === 'P2003') {
             return res.status(400).json({
                 message: 'El valor proporcionado no existe como registro válido (llave foranea invalida)'

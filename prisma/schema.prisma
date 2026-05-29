@@ -40,8 +40,8 @@ model Usersachievements {
   userId Int
   achievementId Int
   dateAchieved DateTime
-  user Users @relation(fields: [userId], references: [id])
-  achievement Achievements @relation(fields: [achievementId], references: [id])
+  user Users @relation(fields: [userId], references: [id], onDelete: Cascade)
+  achievement Achievements @relation(fields: [achievementId], references: [id], onDelete: Cascade)
 }
 
 model Achievements {
@@ -72,7 +72,7 @@ model Lessons {
   description String
   icon String
   isCompleted Boolean @default(false)
-  route Routes @relation(fields: [routeId], references: [id])
+  route Routes @relation(fields: [routeId], references: [id], onDelete: Cascade)
   activities Activities[]
   lessonsProgress lessonsProgress[]
   lessonsAdvices lessonsAdvices[]
@@ -87,7 +87,7 @@ model Activities {
   isCompleted Boolean @default(false)
   type String
   xp Int
-  lesson Lessons @relation(fields: [lessonId], references: [id])
+  lesson Lessons @relation(fields: [lessonId], references: [id], onDelete: Cascade)
   questions Questions[]
   attempts Attempts[]
   activitiesProgress activitiesProgress[]
@@ -103,7 +103,7 @@ model Questions {
   type String
   order Int
   support String?
-  activity Activities @relation(fields: [activityId], references: [id])
+  activity Activities @relation(fields: [activityId], references: [id], onDelete: Cascade)
   options Options[]
   userAnswers UsersAnswers[]
 }
@@ -113,7 +113,7 @@ model Options {
   questionId Int
   optionText String
   isCorrect Boolean
-  question Questions @relation(fields: [questionId], references: [id])
+  question Questions @relation(fields: [questionId], references: [id], onDelete: Cascade)
 }
 
 model Enrolls {
@@ -123,8 +123,8 @@ model Enrolls {
   enrollmentDate DateTime
   finishDate DateTime?
   isCompleted Boolean
-  user Users @relation(fields: [userId], references: [id])
-  route Routes @relation(fields: [routeId], references: [id])
+  user Users @relation(fields: [userId], references: [id], onDelete: Cascade)
+  route Routes @relation(fields: [routeId], references: [id], onDelete: Cascade)
 
   @@unique([userId, routeId])
 }
@@ -136,8 +136,8 @@ model Attempts {
   attemptDate DateTime
   isCorrect Boolean
   score Int
-  user Users @relation(fields: [userId], references: [id])
-  activity Activities @relation(fields: [activityId], references: [id])
+  user Users @relation(fields: [userId], references: [id], onDelete: Cascade)
+  activity Activities @relation(fields: [activityId], references: [id], onDelete: Cascade)
   userAnswers UsersAnswers[]
 }
 
@@ -147,8 +147,8 @@ model lessonsProgress {
   lessonId Int
   progress Int
   isCompleted Boolean
-  user Users @relation(fields: [userId], references: [id])
-  lesson Lessons @relation(fields: [lessonId], references: [id])
+  user Users @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lesson Lessons @relation(fields: [lessonId], references: [id], onDelete: Cascade)
 }
 
 model activitiesProgress {
@@ -157,8 +157,8 @@ model activitiesProgress {
   userId Int
   progress Int
   isCompleted Boolean
-  user Users @relation(fields: [userId], references: [id])
-  activity Activities @relation(fields: [activityId], references: [id])
+  user Users @relation(fields: [userId], references: [id], onDelete: Cascade)
+  activity Activities @relation(fields: [activityId], references: [id], onDelete: Cascade)
 }
 
 model routesAdvices {
@@ -167,7 +167,7 @@ model routesAdvices {
   type String
   adviceTitle String
   adviceText String
-  route Routes @relation(fields: [routeId], references: [id])
+  route Routes @relation(fields: [routeId], references: [id], onDelete: Cascade)
 }
 
 model lessonsAdvices {
@@ -176,7 +176,7 @@ model lessonsAdvices {
   type String
   adviceTitle String
   adviceText String
-  lesson Lessons @relation(fields: [lessonId], references: [id])
+  lesson Lessons @relation(fields: [lessonId], references: [id], onDelete: Cascade)
 }
 
 model PhishingSimulations {
@@ -186,7 +186,7 @@ model PhishingSimulations {
   sender String
   content String
   isScam Boolean
-  activity Activities @relation(fields: [activityId], references: [id])
+  activity Activities @relation(fields: [activityId], references: [id], onDelete: Cascade)
 }
 
 model UsersAnswers {
@@ -195,6 +195,6 @@ model UsersAnswers {
   questionId Int
   answer String
   isCorrect Boolean
-  attempt Attempts @relation(fields: [attemptId], references: [id])
-  question Questions @relation(fields: [questionId], references: [id])
+  attempt Attempts @relation(fields: [attemptId], references: [id], onDelete: Cascade)
+  question Questions @relation(fields: [questionId], references: [id], onDelete: Cascade)
 }

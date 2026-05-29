@@ -9,7 +9,7 @@ const getUsers = async () => {
 
 const registerUser = async (data) => {
     const hashedPassword = await bcrypt.hash(data.password, SALT_ROUNDS)
-    const [day, month, year] = data.birthDate.split('/')
+    const [month, day, year] = data.birthDate.split('/')
 
     return await prisma.users.create({
         data: {
