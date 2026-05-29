@@ -12,7 +12,7 @@ const createRouteAdvice = async (data) => {
     })
 }
 
-const getRouteAdvicesById = async (routeId) => {
+const getRouteAdvicesByRouteId = async (routeId) => {
     return await prisma.routesAdvices.findMany({
         where: {
             routeId: parseInt(routeId)
@@ -23,5 +23,5 @@ const getRouteAdvicesById = async (routeId) => {
 module.exports = {
     getRoutesAdvices,
     createRouteAdvice,
-    getRouteAdvicesById
+    getRouteAdvicesByRouteId
 }

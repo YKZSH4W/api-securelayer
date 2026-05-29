@@ -34,8 +34,19 @@ const getRouteAdvicesById = async (req, res, next) => {
     }
 }
 
+const getRouteAdvicesByRouteId = async (req, res, next) => {
+    try {
+        const { routeId } = req.params
+        const advices = await routeAdviceService.getRouteAdvicesByRouteId(routeId)
+        res.json(advices)
+    } catch (error) {
+        next(error)
+    }
+}
+
 module.exports = {
     getRoutesAdvices,
     createRouteAdvice,
-    getRouteAdvicesById
+    getRouteAdvicesById,
+    getRouteAdvicesByRouteId
 }
