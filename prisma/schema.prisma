@@ -84,6 +84,7 @@ model Activities {
   isCompleted Boolean @default(false)
   type String
   xp Int
+  category String?
   lesson Lessons @relation(fields: [lessonId], references: [id], onDelete: Cascade)
   questions Questions[]
   attempts Attempts[]
