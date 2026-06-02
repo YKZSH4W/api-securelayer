@@ -1,12 +1,10 @@
 const express = require('express')
 const router = express.Router()
-const { registerUser, getUsers, getUserByEmail, getUserByUsername, loginUser } = require('../controllers/users.controller')
+const { registerUser, getUsers, getUserByEmail, loginUser } = require('../controllers/users.controller')
 
 router.get('/', getUsers)
 
 router.get('/email/:email', getUserByEmail)
-
-router.get('/username/:username', getUserByUsername)
 
 router.post('/auth/register', registerUser)
 

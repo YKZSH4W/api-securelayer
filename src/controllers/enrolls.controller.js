@@ -32,8 +32,19 @@ const getEnrollsByUserId = async (req, res, next) => {
     }
 }
 
+const completeRouteAndAdvance = async (req, res, next) => {
+    try {
+        const { userId, routeId } = req.body
+        const result = await enrollService.completeRouteAndAdvance(userId, routeId)
+        res.json(result)
+    } catch (error) {
+        next(error)
+    }
+}
+
 module.exports = {
     getEnrolls,
     createEnroll,
-    getEnrollsByUserId
+    getEnrollsByUserId,
+    completeRouteAndAdvance
 }

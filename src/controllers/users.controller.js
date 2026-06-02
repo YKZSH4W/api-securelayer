@@ -11,8 +11,8 @@ const getUsers = async (req, res, next) => {
 
 const registerUser = async (req, res, next) => {
     try {
-        const { name, email, lastName, password, birthDate, username } = req.body
-        const { password: noPassword, lastAccessed: noLastAccessed, ...user } = await userService.registerUser({ name, email, lastName, password, birthDate, username })
+        const { name, email, lastName, password } = req.body
+        const { password: noPassword, lastAccessed: noLastAccessed, ...user } = await userService.registerUser({ name, email, lastName, password })
         res.status(201).json(user)
     } catch (error) {
         next(error)
@@ -22,15 +22,6 @@ const registerUser = async (req, res, next) => {
 const getUserByEmail = async (req, res, next) => {
     try {
         const user = await userService.getUserByEmail(req.params.email)
-        res.json(user)
-    } catch (error) {
-        next(error)
-    }
-}
-
-const getUserByUsername = async (req, res, next) => {
-    try {
-        const user = await userService.getUserByUsername(req.params.username)
         res.json(user)
     } catch (error) {
         next(error)
@@ -52,6 +43,5 @@ module.exports = {
     getUsers,
     registerUser,
     getUserByEmail,
-    getUserByUsername,
     loginUser
 }

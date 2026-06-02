@@ -1,11 +1,13 @@
 const express = require('express')
 const router = express.Router()
 const { getActivitiesProgress, createActivityProgress, getActivitiesProgressByUserId,
-        getActivitiesProgressByActivityId, getProgressByUserAndActivity } = require('../controllers/activities-progress.controller')
+        getActivitiesProgressByActivityId, getProgressByUserAndActivity, completeActivity } = require('../controllers/activities-progress.controller')
 
 router.get('/', getActivitiesProgress)
 
 router.post('/', createActivityProgress)
+
+router.post('/complete', completeActivity)
 
 router.get('/activity/:activityId', getActivitiesProgressByActivityId)
 

@@ -14,8 +14,14 @@ const createQuestion = async (data) => {
 
 const getQuestionsByActivityId = async (activityId) => {
     return await prisma.questions.findMany({
-        where: {
-            activityId: parseInt(activityId)
+        where: { 
+            activityId: parseInt(activityId) 
+        },
+        orderBy: { 
+            order: 'asc' 
+        },
+        include: { 
+            options: true 
         }
     })
 }

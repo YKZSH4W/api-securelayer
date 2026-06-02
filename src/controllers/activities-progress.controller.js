@@ -52,10 +52,21 @@ const getProgressByUserAndActivity = async (req, res, next) => {
     }
 }
 
+const completeActivity = async (req, res, next) => {
+    try {
+        const { userId, activityId } = req.body
+        const result = await activityProgressService.completeActivity(userId, activityId)
+        res.json(result)
+    } catch (error) {
+        next(error)
+    }
+}
+
 module.exports = {
     getActivitiesProgress,
     createActivityProgress,
     getActivitiesProgressByUserId,
     getActivitiesProgressByActivityId,
-    getProgressByUserAndActivity
+    getProgressByUserAndActivity,
+    completeActivity
 }

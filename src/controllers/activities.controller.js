@@ -11,13 +11,14 @@ const getActivities = async (req, res, next) => {
 
 const createActivity = async (req, res, next) => {
     try {
-        const { lessonId, name, description, icon, type } = req.body
+        const { lessonId, name, description, icon, type, xp } = req.body
         const activity = await activityService.createActivity({
             lessonId,
             name,
             description,
             icon,
-            type
+            type,
+            xp
         })
         res.status(201).json(activity)
     } catch (error) {

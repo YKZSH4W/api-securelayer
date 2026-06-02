@@ -34,9 +34,20 @@ const getLessonsByRouteId = async (req, res, next) => {
     }
 }
 
+const getLessonsByRouteWithProgress = async (req, res, next) => {
+    try {
+        const { routeId, userId } = req.params
+        const lessons = await lessonService.getLessonsByRouteWithProgress(routeId, userId)
+        res.json(lessons)
+    } catch (error) {
+        next(error)
+    }
+}
+
 
 module.exports = {
     getLessons,
     createLesson,
-    getLessonsByRouteId
+    getLessonsByRouteId,
+    getLessonsByRouteWithProgress
 }

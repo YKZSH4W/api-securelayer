@@ -19,11 +19,9 @@ datasource db {
 model Users {
   id Int @id @default(autoincrement())
   email String @unique
-  username String @unique
   password String
   name String
   lastName String
-  birthDate DateTime
   totalXp Int
   lastAccessed DateTime
   streak Int
@@ -31,7 +29,6 @@ model Users {
   userAchievements Usersachievements[]
   enrolls Enrolls[]
   attempts Attempts[]
-  lessonsProgress lessonsProgress[]
   activitiesProgress activitiesProgress[]
 }
 
@@ -74,7 +71,6 @@ model Lessons {
   isCompleted Boolean @default(false)
   route Routes @relation(fields: [routeId], references: [id], onDelete: Cascade)
   activities Activities[]
-  lessonsProgress lessonsProgress[]
   lessonsAdvices lessonsAdvices[]
 }
 
@@ -139,16 +135,6 @@ model Attempts {
   user Users @relation(fields: [userId], references: [id], onDelete: Cascade)
   activity Activities @relation(fields: [activityId], references: [id], onDelete: Cascade)
   userAnswers UsersAnswers[]
-}
-
-model lessonsProgress {
-  id Int @id @default(autoincrement())
-  userId Int
-  lessonId Int
-  progress Int
-  isCompleted Boolean
-  user Users @relation(fields: [userId], references: [id], onDelete: Cascade)
-  lesson Lessons @relation(fields: [lessonId], references: [id], onDelete: Cascade)
 }
 
 model activitiesProgress {

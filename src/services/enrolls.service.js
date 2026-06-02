@@ -29,16 +29,69 @@ const getEnrollsByUserId = async (userId) => {
         where: {
             userId: parseInt(userId)
         },
+        orderBy: {
+            routeId: 'asc'
+        },
         include: {
             route: true
         }
     })
-    
-    return enrolls.map(enroll => enroll.route)
+
+    return enrolls.map(enroll => ({
+        ...enroll.route,
+        isCompleted: enroll.isCompleted
+    }))
+}
+
+const completeRouteAndAdvance = async (userId, routeId) => {
+    const uid = parseInt(userId)
+    const rid = parseInt(routeId)
+
+    const currentEnroll = await prisma.enrolls.findUnique({
+        where: { userId_routeId: { userId: uid, routeId: rid } }
+    })
+
+    if (currentEnroll && !currentEnroll.isCompleted) {
+        await prisma.enrolls.update({
+            where: { id: currentEnroll.id },
+            data: { isCompleted: true, finishDate: new Date() }
+        })
+    }
+
+    const nextRoute = await prisma.routes.findFirst({
+        where: { id: { gt: rid } },
+        orderBy: { id: 'asc' }
+    })
+
+    let enrolledNext = false
+    if (nextRoute) {
+        const existingNext = await prisma.enrolls.findUnique({
+            where: { userId_routeId: { userId: uid, routeId: nextRoute.id } }
+        })
+
+        if (!existingNext) {
+            await prisma.enrolls.create({
+                data: {
+                    userId: uid,
+                    routeId: nextRoute.id,
+                    enrollmentDate: new Date(),
+                    isCompleted: false
+                }
+            })
+            enrolledNext = true
+        }
+    }
+
+    return {
+        completedRouteId: rid,
+        nextRoute: nextRoute || null,
+        enrolledNext
+    }
 }
 
 module.exports = {
     getEnrolls,
     createEnroll,
-    getEnrollsByUserId
+    getEnrollsByUserId,
+    completeRouteAndAdvance
 }
