@@ -34,6 +34,23 @@ const registerUser = async (data) => {
     return newUser
 }
 
+// Actualiza nombre, correo y/o foto de perfil del usuario.
+// Si el correo ya existe en otro usuario, Prisma lanza P2002 → el middleware responde 409.
+const updateUser = async (id, data) => {
+    const updated = await prisma.users.update({
+        where: { id: parseInt(id) },
+        data: {
+            name: data.name,
+            lastName: data.lastName,
+            email: data.email,
+            profilePicture: data.profilePicture
+        }
+    })
+
+    const { password, lastAccessed, ...rest } = updated
+    return rest
+}
+
 const getUserByEmail = async (email) => {
     return await prisma.users.findUnique({
         where: { email }
@@ -89,6 +106,7 @@ const loginUser = async (email, password) => {
 module.exports = {
     getUsers,
     registerUser,
+    updateUser,
     getUserByEmail,
     loginUser
 }

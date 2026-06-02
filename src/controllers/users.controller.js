@@ -19,6 +19,16 @@ const registerUser = async (req, res, next) => {
     }
 }
 
+const updateUser = async (req, res, next) => {
+    try {
+        const { name, lastName, email, profilePicture } = req.body
+        const user = await userService.updateUser(req.params.id, { name, lastName, email, profilePicture })
+        res.json(user)
+    } catch (error) {
+        next(error)
+    }
+}
+
 const getUserByEmail = async (req, res, next) => {
     try {
         const user = await userService.getUserByEmail(req.params.email)
@@ -42,6 +52,7 @@ const loginUser = async (req, res, next) => {
 module.exports = {
     getUsers,
     registerUser,
+    updateUser,
     getUserByEmail,
     loginUser
 }

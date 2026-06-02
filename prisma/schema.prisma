@@ -26,6 +26,7 @@ model Users {
   lastAccessed DateTime
   streak Int
   knowledgeLevel String
+  profilePicture String? @db.LongText
   userAchievements Usersachievements[]
   enrolls Enrolls[]
   attempts Attempts[]
