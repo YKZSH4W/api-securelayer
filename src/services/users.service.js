@@ -9,9 +9,9 @@ const getUsers = async () => {
 
 const registerUser = async (data) => {
     const hashedPassword = await bcrypt.hash(data.password, SALT_ROUNDS)
-    const [month, day, year] = data.birthDate.split('/')
+    const [day, month, year] = data.birthDate.split('/')
 
-    return await prisma.users.create({
+    const newUser = await prisma.users.create({
         data: {
             ...data,
             password: hashedPassword,
@@ -22,6 +22,18 @@ const registerUser = async (data) => {
             knowledgeLevel: "Sin clasificar"
         }
     })
+
+    await prisma.enrolls.create({
+        data: {
+            userId: newUser.id,
+            routeId: 1,
+            isCompleted: false,
+            enrollmentDate: new Date(),
+            finishDate: null
+        }
+    })
+
+    return newUser
 }
 
 const getUserByEmail = async (email) => {

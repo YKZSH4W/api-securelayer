@@ -10,8 +10,13 @@ const errorMiddleware = (err, req, res, next) => {
         }
 
         if (err.code === 'P2002') {
+            const constraintIndex = err.meta?.driverAdapterError?.cause?.constraint?.index
+            const field = constraintIndex
+                ? constraintIndex.replace(/^[^_]+_/, '').replace(/_key$/, '')
+                : null
             return res.status(409).json({
-                message: 'Ya existe un registro con ese valor único'
+                message: field ? `Ya existe un registro con ese ${field}` : 'Ya existe un registro con ese valor único',
+                field
             })
         }
 
