@@ -2,18 +2,16 @@
 CREATE TABLE `Users` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `email` VARCHAR(191) NOT NULL,
-    `username` VARCHAR(191) NOT NULL,
     `password` VARCHAR(191) NOT NULL,
     `name` VARCHAR(191) NOT NULL,
     `lastName` VARCHAR(191) NOT NULL,
-    `birthDate` DATETIME(3) NOT NULL,
     `totalXp` INTEGER NOT NULL,
     `lastAccessed` DATETIME(3) NOT NULL,
     `streak` INTEGER NOT NULL,
     `knowledgeLevel` VARCHAR(191) NOT NULL,
+    `profilePicture` LONGTEXT NULL,
 
     UNIQUE INDEX `Users_email_key`(`email`),
-    UNIQUE INDEX `Users_username_key`(`username`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -57,7 +55,6 @@ CREATE TABLE `Lessons` (
     `name` VARCHAR(191) NOT NULL,
     `description` VARCHAR(191) NOT NULL,
     `icon` VARCHAR(191) NOT NULL,
-    `isCompleted` BOOLEAN NOT NULL DEFAULT false,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -69,9 +66,9 @@ CREATE TABLE `Activities` (
     `name` VARCHAR(191) NOT NULL,
     `description` VARCHAR(191) NOT NULL,
     `icon` VARCHAR(191) NOT NULL,
-    `isCompleted` BOOLEAN NOT NULL DEFAULT false,
     `type` VARCHAR(191) NOT NULL,
     `xp` INTEGER NOT NULL,
+    `category` VARCHAR(191) NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -81,11 +78,9 @@ CREATE TABLE `Questions` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `activityId` INTEGER NOT NULL,
     `questionText` VARCHAR(191) NOT NULL,
-    `correctAnswer` VARCHAR(191) NOT NULL,
     `explanation` VARCHAR(191) NOT NULL,
     `type` VARCHAR(191) NOT NULL,
     `order` INTEGER NOT NULL,
-    `support` VARCHAR(191) NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -121,17 +116,6 @@ CREATE TABLE `Attempts` (
     `attemptDate` DATETIME(3) NOT NULL,
     `isCorrect` BOOLEAN NOT NULL,
     `score` INTEGER NOT NULL,
-
-    PRIMARY KEY (`id`)
-) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-
--- CreateTable
-CREATE TABLE `lessonsProgress` (
-    `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `userId` INTEGER NOT NULL,
-    `lessonId` INTEGER NOT NULL,
-    `progress` INTEGER NOT NULL,
-    `isCompleted` BOOLEAN NOT NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -181,17 +165,6 @@ CREATE TABLE `PhishingSimulations` (
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
--- CreateTable
-CREATE TABLE `UsersAnswers` (
-    `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `attemptId` INTEGER NOT NULL,
-    `questionId` INTEGER NOT NULL,
-    `answer` VARCHAR(191) NOT NULL,
-    `isCorrect` BOOLEAN NOT NULL,
-
-    PRIMARY KEY (`id`)
-) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-
 -- AddForeignKey
 ALTER TABLE `Usersachievements` ADD CONSTRAINT `Usersachievements_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `Users`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
@@ -223,12 +196,6 @@ ALTER TABLE `Attempts` ADD CONSTRAINT `Attempts_userId_fkey` FOREIGN KEY (`userI
 ALTER TABLE `Attempts` ADD CONSTRAINT `Attempts_activityId_fkey` FOREIGN KEY (`activityId`) REFERENCES `Activities`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `lessonsProgress` ADD CONSTRAINT `lessonsProgress_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `Users`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE `lessonsProgress` ADD CONSTRAINT `lessonsProgress_lessonId_fkey` FOREIGN KEY (`lessonId`) REFERENCES `Lessons`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
 ALTER TABLE `activitiesProgress` ADD CONSTRAINT `activitiesProgress_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `Users`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
@@ -242,9 +209,3 @@ ALTER TABLE `lessonsAdvices` ADD CONSTRAINT `lessonsAdvices_lessonId_fkey` FOREI
 
 -- AddForeignKey
 ALTER TABLE `PhishingSimulations` ADD CONSTRAINT `PhishingSimulations_activityId_fkey` FOREIGN KEY (`activityId`) REFERENCES `Activities`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE `UsersAnswers` ADD CONSTRAINT `UsersAnswers_attemptId_fkey` FOREIGN KEY (`attemptId`) REFERENCES `Attempts`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE `UsersAnswers` ADD CONSTRAINT `UsersAnswers_questionId_fkey` FOREIGN KEY (`questionId`) REFERENCES `Questions`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
