@@ -96,7 +96,7 @@ model Questions {
   questionText String
   explanation String
   type String
-  order Int
+  questionOrder Int
   activity Activities @relation(fields: [activityId], references: [id], onDelete: Cascade)
   options Options[]
 }
