@@ -27,8 +27,8 @@ const createPhishingSimulation = async (req, res, next) => {
 
 const getPhishingSimulationsById = async (req, res, next) => {
     try {
-        const { id } = req.params
-        const phishingSimulation = await phishingSimulationService.getPhishingSimulationsByActivityId(id)
+        const { activityId } = req.params
+        const phishingSimulation = await phishingSimulationService.getPhishingSimulationsByActivityId(activityId)
         res.json(phishingSimulation)
     } catch (error) {
         next(error)
