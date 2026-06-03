@@ -51,6 +51,17 @@ const updateUser = async (id, data) => {
     return rest
 }
 
+// Actualiza el nivel de conocimiento del usuario (resultado del test inicial)
+const updateKnowledgeLevel = async (id, knowledgeLevel) => {
+    const updated = await prisma.users.update({
+        where: { id: parseInt(id) },
+        data: { knowledgeLevel }
+    })
+
+    const { password, lastAccessed, ...rest } = updated
+    return rest
+}
+
 const getUserByEmail = async (email) => {
     return await prisma.users.findUnique({
         where: { email }
@@ -107,6 +118,7 @@ module.exports = {
     getUsers,
     registerUser,
     updateUser,
+    updateKnowledgeLevel,
     getUserByEmail,
     loginUser
 }

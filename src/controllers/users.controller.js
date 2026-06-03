@@ -29,6 +29,16 @@ const updateUser = async (req, res, next) => {
     }
 }
 
+const updateKnowledgeLevel = async (req, res, next) => {
+    try {
+        const { knowledgeLevel } = req.body
+        const user = await userService.updateKnowledgeLevel(req.params.id, knowledgeLevel)
+        res.json(user)
+    } catch (error) {
+        next(error)
+    }
+}
+
 const getUserByEmail = async (req, res, next) => {
     try {
         const user = await userService.getUserByEmail(req.params.email)
@@ -53,6 +63,7 @@ module.exports = {
     getUsers,
     registerUser,
     updateUser,
+    updateKnowledgeLevel,
     getUserByEmail,
     loginUser
 }

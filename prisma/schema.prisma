@@ -96,11 +96,9 @@ model Questions {
   id Int @id @default(autoincrement())
   activityId Int
   questionText String
-  correctAnswer String
   explanation String
   type String
   order Int
-  support String?
   activity Activities @relation(fields: [activityId], references: [id], onDelete: Cascade)
   options Options[]
   userAnswers UsersAnswers[]
