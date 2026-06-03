@@ -7,8 +7,7 @@ const getLessons = async () => {
 const createLesson = async (data) => {
     return await prisma.lessons.create({
         data: {
-            ...data,
-            isCompleted: false
+            ...data
         }
     })
 }

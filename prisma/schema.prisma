@@ -69,7 +69,6 @@ model Lessons {
   name String
   description String
   icon String
-  isCompleted Boolean @default(false)
   route Routes @relation(fields: [routeId], references: [id], onDelete: Cascade)
   activities Activities[]
   lessonsAdvices lessonsAdvices[]
@@ -81,7 +80,6 @@ model Activities {
   name String
   description String
   icon String
-  isCompleted Boolean @default(false)
   type String
   xp Int
   category String?
@@ -101,7 +99,6 @@ model Questions {
   order Int
   activity Activities @relation(fields: [activityId], references: [id], onDelete: Cascade)
   options Options[]
-  userAnswers UsersAnswers[]
 }
 
 model Options {
@@ -134,7 +131,6 @@ model Attempts {
   score Int
   user Users @relation(fields: [userId], references: [id], onDelete: Cascade)
   activity Activities @relation(fields: [activityId], references: [id], onDelete: Cascade)
-  userAnswers UsersAnswers[]
 }
 
 model activitiesProgress {
@@ -175,12 +171,3 @@ model PhishingSimulations {
   activity Activities @relation(fields: [activityId], references: [id], onDelete: Cascade)
 }
 
-model UsersAnswers {
-  id Int @id @default(autoincrement())
-  attemptId Int
-  questionId Int
-  answer String
-  isCorrect Boolean
-  attempt Attempts @relation(fields: [attemptId], references: [id], onDelete: Cascade)
-  question Questions @relation(fields: [questionId], references: [id], onDelete: Cascade)
-}
