@@ -17,8 +17,8 @@ const getQuestionsByActivityId = async (activityId) => {
         where: { 
             activityId: parseInt(activityId) 
         },
-        orderBy: { 
-            order: 'asc' 
+        orderBy: {
+            questionOrder: 'asc'
         },
         include: { 
             options: true 
