@@ -56,7 +56,8 @@ const completeActivity = async (userId, activityId) => {
             progress: existing,
             alreadyCompleted: true,
             xpAwarded: 0,
-            totalXp: user?.totalXp ?? 0
+            totalXp: user?.totalXp ?? 0,
+            newAchievements: []
         }
     }
 
@@ -83,12 +84,39 @@ const completeActivity = async (userId, activityId) => {
         return { progress, totalXp: user.totalXp }
     })
 
+    // Otorga las medallas que el usuario haya desbloqueado con su nueva XP
+    const newAchievements = await grantAchievements(usId, result.totalXp)
+
     return {
         progress: result.progress,
         alreadyCompleted: false,
         xpAwarded: xp,
-        totalXp: result.totalXp
+        totalXp: result.totalXp,
+        newAchievements
     }
+}
+
+// Otorga (crea en usersachievements) las medallas cuyo requiredXp ya alcanzó el usuario
+// y que aún no tenía. Devuelve las medallas recién otorgadas.
+const grantAchievements = async (userId, totalXp) => {
+    const eligible = await prisma.achievements.findMany({
+        where: { requiredXp: { lte: totalXp } }
+    })
+
+    const owned = await prisma.usersachievements.findMany({
+        where: { userId }
+    })
+    const ownedIds = new Set(owned.map((o) => o.achievementId))
+
+    const toGrant = eligible.filter((a) => !ownedIds.has(a.id))
+
+    for (const achievement of toGrant) {
+        await prisma.usersachievements.create({
+            data: { userId, achievementId: achievement.id, dateAchieved: new Date() }
+        })
+    }
+
+    return toGrant
 }
 
 module.exports = {

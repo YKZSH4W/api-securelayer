@@ -17,7 +17,9 @@ const getUserAchievementsByUserId = async (userId) => {
     return await prisma.usersachievements.findMany({
         where: {
             userId: parseInt(userId)
-        }
+        },
+        orderBy: { dateAchieved: 'asc' },
+        include: { achievement: true }
     })
 }
 
