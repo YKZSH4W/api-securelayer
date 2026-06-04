@@ -43,6 +43,16 @@ const getEnrollsByUserId = async (userId) => {
     }))
 }
 
+// Siguiente nivel de conocimiento (Experto es el máximo)
+const nextKnowledgeLevel = (current) => {
+    switch (current) {
+        case 'Sin clasificar': return 'Principiante'
+        case 'Principiante': return 'Avanzado'
+        case 'Avanzado': return 'Experto'
+        default: return 'Experto'
+    }
+}
+
 const completeRouteAndAdvance = async (userId, routeId) => {
     const uid = parseInt(userId)
     const rid = parseInt(routeId)
@@ -51,10 +61,20 @@ const completeRouteAndAdvance = async (userId, routeId) => {
         where: { userId_routeId: { userId: uid, routeId: rid } }
     })
 
+    // Solo al completar la ruta por primera vez se marca y se sube de nivel
+    let newKnowledgeLevel = null
     if (currentEnroll && !currentEnroll.isCompleted) {
         await prisma.enrolls.update({
             where: { id: currentEnroll.id },
             data: { isCompleted: true, finishDate: new Date() }
+        })
+
+        // Sube al usuario al siguiente nivel de conocimiento
+        const user = await prisma.users.findUnique({ where: { id: uid } })
+        newKnowledgeLevel = nextKnowledgeLevel(user?.knowledgeLevel)
+        await prisma.users.update({
+            where: { id: uid },
+            data: { knowledgeLevel: newKnowledgeLevel }
         })
     }
 
@@ -85,7 +105,8 @@ const completeRouteAndAdvance = async (userId, routeId) => {
     return {
         completedRouteId: rid,
         nextRoute: nextRoute || null,
-        enrolledNext
+        enrolledNext,
+        newKnowledgeLevel
     }
 }
 
