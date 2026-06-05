@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "setup": "pnpm install --config.node-linker=hoisted",
-    "start": "prisma migrate dev --name remove_lastname && prisma generate && prisma migrate deploy && node ./bin/www"
+    "start": "prisma generate && prisma migrate deploy && node ./bin/www"
   },
   "dependencies": {
     "@prisma/adapter-mariadb": "^7.8.0",
