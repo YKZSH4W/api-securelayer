@@ -11,8 +11,8 @@ const getUsers = async (req, res, next) => {
 
 const registerUser = async (req, res, next) => {
     try {
-        const { name, email, lastName, password } = req.body
-        const { password: noPassword, lastAccessed: noLastAccessed, ...user } = await userService.registerUser({ name, email, lastName, password })
+        const { name, email, password } = req.body
+        const { password: noPassword, lastAccessed: noLastAccessed, ...user } = await userService.registerUser({ name, email, password })
         res.status(201).json(user)
     } catch (error) {
         next(error)
@@ -21,8 +21,8 @@ const registerUser = async (req, res, next) => {
 
 const updateUser = async (req, res, next) => {
     try {
-        const { name, lastName, email, profilePicture } = req.body
-        const user = await userService.updateUser(req.params.id, { name, lastName, email, profilePicture })
+        const { name, email, profilePicture } = req.body
+        const user = await userService.updateUser(req.params.id, { name, email, profilePicture })
         res.json(user)
     } catch (error) {
         next(error)

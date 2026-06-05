@@ -41,7 +41,6 @@ const updateUser = async (id, data) => {
         where: { id: parseInt(id) },
         data: {
             name: data.name,
-            lastName: data.lastName,
             email: data.email,
             profilePicture: data.profilePicture
         }
