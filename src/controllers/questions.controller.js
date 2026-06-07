@@ -11,13 +11,13 @@ const getQuestions = async (req, res, next) => {
 
 const createQuestion = async (req, res, next) => {
     try {
-        const { activityId, questionText, explanation, type, order } = req.body
+        const { activityId, questionText, explanation, type, questionOrder } = req.body
         const question = await questionService.createQuestion({
             activityId,
             questionText,
             explanation,
             type,
-            order
+            questionOrder
         })
         res.status(201).json(question)
     } catch (error) {
